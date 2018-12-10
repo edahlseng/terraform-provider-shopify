@@ -1,0 +1,6 @@
+.terraform
+terraform.log
+terraform.tfstate*
+terraform-provider-shopify
+*.tf
+dist
