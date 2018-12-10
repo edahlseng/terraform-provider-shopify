@@ -36,6 +36,7 @@ curl https://<yourstore>.myshopify.com/admin/webhooks.json -H "X-Shopify-Access-
 resource "shopify_webhook" "example" {
   address = "https://mywebhook.example.com"
   topic   = "orders/create"
+  format  = "json"
 }
 ```
 
