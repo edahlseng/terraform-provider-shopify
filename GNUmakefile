@@ -12,8 +12,8 @@ build: fmtcheck
 targets: $(TARGETS)
 
 $(TARGETS):
-	GOOS=$@ GOARCH=amd64 CGO_ENABLED=0 go build -o "dist/terraform-provider-shopify_$(git describe --tags)_$@_amd64"
-	zip -j dist/terraform-provider-shopify_$(git describe --tags)_$@_amd64.zip dist/terraform-provider-shopify_$(git describe --tags)_$@_amd64
+	GOOS=$@ GOARCH=amd64 CGO_ENABLED=0 go build -o "dist/terraform-provider-shopify_$$(git describe --tags)_$@_amd64"
+	zip -j dist/terraform-provider-shopify_$$(git describe --tags)_$@_amd64.zip dist/terraform-provider-shopify_$$(git describe --tags)_$@_amd64
 
 test: fmtcheck
 	go test -i $(TEST) || exit 1
