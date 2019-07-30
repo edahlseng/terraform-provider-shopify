@@ -1,8 +1,8 @@
 package shopify
 
 import (
-	shopify "./shopify-go"
 	"fmt"
+	shopify "github.com/edahlseng/terraform-provider-shopify/shopify/shopify-go"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 

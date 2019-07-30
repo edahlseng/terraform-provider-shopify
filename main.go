@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./shopify"
+	"github.com/edahlseng/terraform-provider-shopify/shopify"
 	"github.com/hashicorp/terraform/plugin"
 )
 

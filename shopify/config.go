@@ -1,7 +1,7 @@
 package shopify
 
 import (
-	shopify "./shopify-go"
+	shopify "github.com/edahlseng/terraform-provider-shopify/shopify/shopify-go"
 )
 
 type Config struct {
