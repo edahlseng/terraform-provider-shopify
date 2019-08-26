@@ -4,6 +4,8 @@ import (
 	"fmt"
 	shopify "github.com/edahlseng/terraform-provider-shopify/shopify/shopify-go"
 	"github.com/hashicorp/terraform/helper/schema"
+	"log"
+	"net/http"
 )
 
 func resourceShopifyWebhook() *schema.Resource {
@@ -81,7 +83,12 @@ func resourceShopifyWebhookUpdate(d *schema.ResourceData, meta interface{}) erro
 func resourceShopifyWebhookRead(d *schema.ResourceData, meta interface{}) error {
 	client := meta.(*shopify.Client)
 
-	webhook, _, err := client.Webhooks.Read(d.Id())
+	webhook, resp, err := client.Webhooks.Read(d.Id())
+	if resp.StatusCode == http.StatusNotFound {
+		log.Printf("Removing webhook from state because it no longer exists in Shopify")
+		d.SetId("")
+		return nil
+	}
 	if err != nil {
 		return fmt.Errorf("Error reading Shopify webhook: %s", err)
 	}
