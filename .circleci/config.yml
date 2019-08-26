@@ -1,0 +1,75 @@
+version: 2.1
+
+orbs:
+  general: edahlseng/general@1.22.0
+
+executors:
+  golang:
+    docker:
+      - image: circleci/golang:1.11.4
+        user: circleci
+
+jobs:
+  build-artifacts:
+    executor: golang
+    steps:
+      - general/get-workspace
+      - general/halt-if-not-release-commit
+      - run:
+          name: Building artifacts
+          command: make targets
+      - general/put-path:
+          path: dist/*.zip
+
+workflows:
+  main:
+    jobs:
+      - general/install-dependencies-npm
+      - general/lint-commit:
+          requires:
+            - general/install-dependencies-npm
+      - general/lint-json:
+          requires:
+            - general/install-dependencies-npm
+      - general/lint-yaml:
+          requires:
+            - general/install-dependencies-npm
+      - general/create-release-pr:
+          context: Release Bot
+          git-ssh-fingerprint: 5f:0c:aa:35:94:35:cc:38:76:c0:3d:33:a0:bc:69:27
+          git-user-email: edahlseng@users.noreply.github.com
+          git-user-name: "Release Bot"
+          github-access-token: $RELEASE_BOT_GITHUB_TOKEN
+          requires:
+            - general/lint-commit
+            - general/lint-json
+            - general/lint-yaml
+          filters:
+            branches:
+              only: master
+      - general/tag:
+          git-ssh-fingerprint: 5f:0c:aa:35:94:35:cc:38:76:c0:3d:33:a0:bc:69:27
+          git-user-email: edahlseng@users.noreply.github.com
+          git-user-name: "Release Bot"
+          requires:
+            - general/lint-commit
+            - general/lint-json
+            - general/lint-yaml
+          filters:
+            branches:
+              only: master
+      - build-artifacts:
+          requires:
+            - general/tag
+          filters:
+            branches:
+              only: master
+      - general/create-github-release:
+          context: Release Bot
+          github-access-token: $RELEASE_BOT_GITHUB_TOKEN
+          artifact-paths: dist/*.zip
+          requires:
+            - build-artifacts
+          filters:
+            branches:
+              only: master
