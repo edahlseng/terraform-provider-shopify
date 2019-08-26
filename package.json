@@ -3,13 +3,20 @@
   "version": "0.1.0",
   "description": "Shopify Terraform Provider",
   "scripts": {
+    "lint:commit": "commitlint",
+    "lint-report:commit": "mkdir -p ./linting-results/commitlint && commitlint --format commitlint-format-junit > ./linting-results/commitlint/report.xml",
+    "lint:json": "prettier --config .prettierrc.js --list-different '**/*.json'",
+    "lint-report:json": "mkdir -p ./linting-results/prettier-json && prettier-junit --config .prettierrc.js '**/*.json' > ./linting-results/prettier-json/report.xml",
+    "lint:tf": "terraform fmt -check=true",
+    "lint:yaml": "prettier --config .prettierrc.js --list-different '**/*.yaml' '**/*.yml'",
+    "lint-report:yaml": "mkdir -p ./linting-results/prettier-yaml && prettier-junit --config .prettierrc.js '**/*.yaml' '**/*.yml' > ./linting-results/prettier-yaml/report.xml",
     "release": "standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Eric Dahlseng",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
+    "@eric.dahlseng/configuration-lint": "^0.4.2",
     "@eric.dahlseng/standard-version": "^1.1.0"
   },
   "standard-version": {
