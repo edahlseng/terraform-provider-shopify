@@ -3,18 +3,19 @@ package shopifygo
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/dghubble/sling"
 	"net/http"
 	"net/url"
+
+	"github.com/dghubble/sling"
 )
 
 type WebhookService struct {
 	sling *sling.Sling
 }
 
-func newWebhookService(sling *sling.Sling) *WebhookService {
+func newWebhookService(sling *sling.Sling, shopifyApiVersion string) *WebhookService {
 	return &WebhookService{
-		sling: sling.New().Path("admin/"),
+		sling: sling.New().Path("admin/api/" + shopifyApiVersion + "/"),
 	}
 }
 

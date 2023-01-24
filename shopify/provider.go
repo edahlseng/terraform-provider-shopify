@@ -20,6 +20,12 @@ func Provider() terraform.ResourceProvider {
 				DefaultFunc: schema.EnvDefaultFunc("SHOPIFY_ACCESS_TOKEN", nil),
 				Description: "Shopify access token",
 			},
+			"api_version": &schema.Schema{
+				Type:        schema.TypeString,
+				Required:    true,
+				DefaultFunc: schema.EnvDefaultFunc("SHOPIFY_API_VERSION", nil),
+				Description: "Shopify API version",
+			},
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
